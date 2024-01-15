@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v6.0.0/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script src="main.js"></script>
+
+    <title>Pop-up menu</title>
+  </head>
+  <body>
+    <a-scene id="js-scene" app>
+      <!-- camera met animatie maken,
+plekken maken waar je iets op kan plaatsen
+blokken maken die je kan oppakken en plaatsen op die plek 
+op die blokken moet dan een pop up menu komen. -->
+      <!-- assets met geluid komt van hajar -->
+
+      <a-camera id="camera-cirkel" position="0 3 5 ">
+        <!-- meerdere objecten kunnen oppakken en plaatsen, goed en fout feedback en geluid,
+        foto toevoegen aan iets dat opgepakt is -->
+        <a-entity
+          id="camera-cirkel"
+          animation__click="property: scale; 
+        startEvents: click;
+        easing: easeInCubic;
+        dur: 100;
+        from: 0.1 0.1 0.1;
+        to: 1 1 1"
+          animation__fusing="
+        property: scale;
+        startEvents: fusing;
+        easing: easeInCubic;
+        dur:1000;
+        from: 1 1 1
+        to: 0.1 0.1 0.1"
+          animation="property: scale;
+        startEvents: mouseleave;
+        easing: easeInCubic;
+        dur: 500;
+        to: 1 1 1;"
+          cursor=" fuse: true; fuseTimeout:1000"
+          material="color: black; shader: flat"
+          geometry="primitive: ring; radiusInner: 0.007; radiusOuter: 0.01"
+          position="0 0 -0.5"
+          raycaster="objects: .clickable ,.oppakken ,.neerleggen ,.plekPlaatsen"
+        ></a-entity>
+      </a-camera>
+
+      <a-sky color="#dde7fb"></a-sky>
+      <a-plane
+        id="grond"
+        color="white"
+        rotation="-90 0 0"
+        width="50"
+        height="50"
+      ></a-plane>
+
+      <a-entity position="0 5 0">
+        <a-entity id="menu-one" class="menu" position="0 -1 0" visible="false">
+          <a-plane
+            class="clickable"
+            color="red"
+            position="-1 0 0"
+            text="value: informatiekaart; align:center; width: 3;"
+            event-set__enter="_event:mouseenter; _target: #boxText; visible:true"
+            event-set__leave="_event:mouseleave; _target: #boxText; visible:false"
+          >
+            <a-text
+              id="boxText"
+              value="ABCDEFG"
+              align="center"
+              color="black"
+              visible="false"
+              position="-1 1 1"
+              rotation="0 0 0"
+              geometry="primitive: plane; width:3 height:1"
+              material="color:pink"
+            ></a-text>
+          </a-plane>
+          <a-plane
+            id="CPU"
+            class="clickable oppakken"
+            color="red"
+            position="1 0 0"
+            text="value: pak mij op; align:center; width:3;"
+          >
+          </a-plane>
+        </a-entity>
+
+        <!-- menu drie -->
+        <a-entity
+          id="menu-three"
+          class="menu"
+          position="0 0.5 0"
+          visible="false"
+        >
+          <a-plane
+            class="clickable"
+            color="blue"
+            position="-1 0 0"
+            text="value: informatiekaart; align:center; width: 3;"
+            event-set__enter="_event:mouseenter; _target: #boxText3; visible:true"
+            event-set__leave="_event:mouseleave; _target: #boxText3; visible:false"
+          >
+            <a-text
+              id="boxText3"
+              value="ABCDEFG"
+              align="center"
+              color="black"
+              visible="false"
+              position="-1 1 1"
+              rotation="0 0 0"
+              geometry="primitive: plane; width:3 height:1"
+              material="color:pink"
+            ></a-text>
+          </a-plane>
+          <a-plane
+            id="RAM"
+            class="clickable oppakken"
+            color="blue"
+            position="1 0 0"
+            text="value: pak mij op; align:center; width:3;"
+          >
+          </a-plane>
+        </a-entity>
+
+        <!-- menu controls -->
+        <a-entity position=" 0 -2 0">
+          <!-- button1 dit moet een object worden.-->
+          <a-plane
+            toggle-menu="#menu-one"
+            class="clickable"
+            position="0 -1 0"
+            height="0.5"
+            width="1.5"
+            color="purple"
+            text="value: CPU; align: center; width: 3;"
+            side="double"
+          ></a-plane>
+
+          <!-- button 3 -->
+          <a-plane
+            toggle-menu="#menu-three"
+            class="clickable button"
+            position="0 0 0"
+            height="0.5"
+            width="1.5"
+            color="purple"
+            text="value: ram; align: center; width: 4;"
+            side="double"
+          ></a-plane>
+        </a-entity>
+      </a-entity>
+      <!-- hieronder de boxen waar je iets op kan plaatsen -->
+      <a-entity id="boxEnPlaatsen">
+        <a-box
+          id="CPUplaats CPU"
+          class="neerleggen"
+          color="grey"
+          position="-1 0 0"
+          opacity="0.4"
+          height="0.2"
+        ></a-box>
+
+        <a-box
+          id="RAMplaats RAM"
+          class="neerleggen"
+          color="grey"
+          position="1 0 0"
+          opacity="0.4"
+          height="0.2"
+        ></a-box>
+      </a-entity>
+      <!-- hieronder de muur met objecten die je kan oppakkken -->
+      <a-entity id="backplane" class="foto">
+        <!-- de muur -->
+        <a-plane
+          src="images/gereedschapmuur.jpg"
+          height="15"
+          width="10"
+          position="7 0 0"
+          side="double"
+        >
+          <a-text
+            value="PICK UP OBJECTS"
+            width="9"
+            height="4"
+            color="black"
+            position="-1.5s 7 0"
+          ></a-text>
+        </a-plane>
+        <!-- ram plane -->
+        <a-entity>
+          <a-plane
+            class="clickable oppakken Foto1"
+            height="1"
+            width="3"
+            position="4 5 0"
+            side="double"
+            src="images/RAM.jpg"
+          >
+          </a-plane>
+        </a-entity>
+
+        <!-- cpu plane -->
+        <a-plane
+          class="clickable oppakken Foto"
+          src="images/CPU.jpg"
+          height="2"
+          width="2"
+          position="7 5 0"
+          side="double"
+        ></a-plane>
+        <!-- ssd plane -->
+        <a-plane
+          class="clickable oppakken ssdFoto"
+          src="images/SSD.jpg"
+          height="2"
+          width="2"
+          position="10s 5 0"
+          side="double"
+        ></a-plane>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
