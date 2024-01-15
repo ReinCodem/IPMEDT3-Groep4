@@ -82,6 +82,12 @@ AFRAME.registerComponent("toggle-menu", {
 
 AFRAME.registerComponent("app", {
   init: function () {
+    const light = document.getElementById("js--light")
+
+    function turnOffLight () {
+    light.setAttribute("light", "type: ambient; color: #BBB")
+    }
+
     const camera = document.getElementById("camera-cirkel");
     const objectPlaatsen = document.getElementsByClassName("neerleggen");
     let scene = document.getElementById("js-scene");
@@ -157,6 +163,8 @@ AFRAME.registerComponent("app", {
         if (vasthouden == "plane") {
           console.log("er is een plane geplaatst");
           if (this.getAttribute("plane") != "neerleggen") {
+            light.setAttribute("light", "type: ambient; color: #008000");
+            setInterval(turnOffLight, 3000);
             let plane = document.createElement("a-plane");
             plane.setAttribute("class", "oppakken");
             plane.setAttribute("src", "CPU.jpg");
