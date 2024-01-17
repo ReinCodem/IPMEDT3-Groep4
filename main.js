@@ -1,3 +1,4 @@
+//dit helemaal hertypen
 AFRAME.registerComponent("toggle-menu", {
   dependencies: ["raycaster"],
 
@@ -82,10 +83,10 @@ AFRAME.registerComponent("toggle-menu", {
 
 AFRAME.registerComponent("app", {
   init: function () {
-    const light = document.getElementById("js--light")
+    const light = document.getElementById("js--light");
 
-    function turnOffLight () {
-    light.setAttribute("light", "type: ambient; color: #BBB")
+    function turnOffLight() {
+      light.setAttribute("light", "type: ambient; color: #BBB");
     }
 
     const camera = document.getElementById("camera-cirkel");
@@ -107,29 +108,48 @@ AFRAME.registerComponent("app", {
       foto = document.getElementsByClassName("Foto1");
       for (let i = 0; i < oppakbaar.length; i++) {
         oppakbaar[i].addEventListener("click", function (evt) {
+          console.log("aanroep");
+          // de
           if (vasthouden == null) {
+            console.log("zit erin");
+
             const newPlane = document.createElement("a-plane");
             const planeId = "plane" + planeCounter++;
-
-            newPlane.setAttribute("id", planeId);
-            newPlane.setAttribute(
-              "class",
-              "clickable oppakken neerleggen plekPlaatsen Foto1"
-            );
-            newPlane.setAttribute("position", "1 1 -2");
-            newPlane.setAttribute("scale", "0.5 0.5 0.5");
-            newPlane.setAttribute("color", "pink");
-            newPlane.setAttribute("width", 3);
-            newPlane.setAttribute("height", 1);
-
-            // newPlane.setAttribute("id", planeId);
-            // newPlane.setAttribute(
-            //   "class",
-            //   "clickable oppakken neerleggen plekPlaatsen"
-            // );
-            // newPlane.setAttribute("position", "1 1 -2");
-            // newPlane.setAttribute("scale", "0.5 0.5 0.5");
-            // newPlane.setAttribute("color", "yellow");
+            if (this.getAttribute("id") == "CPU") {
+              console.log("hallo 1234");
+              newPlane.setAttribute("src", "images/CPU.jpg");
+              newPlane.setAttribute("width", 2);
+              newPlane.setAttribute("height", 2);
+              newPlane.setAttribute("id", planeId);
+              newPlane.setAttribute(
+                "class",
+                "clickable oppakken neerleggen plekPlaatsen Foto1"
+              );
+              newPlane.setAttribute("position", "1 1 -2");
+              newPlane.setAttribute("scale", "0.5 0.5 0.5");
+            } else if (this.getAttribute("id") == "SSD") {
+              newPlane.setAttribute("src", "images/SSD.jpg");
+              newPlane.setAttribute("width", 2);
+              newPlane.setAttribute("height", 2);
+              newPlane.setAttribute("id", planeId);
+              newPlane.setAttribute(
+                "class",
+                "clickable oppakken neerleggen plekPlaatsen Foto1"
+              );
+              newPlane.setAttribute("position", "1 1 -2");
+              newPlane.setAttribute("scale", "0.5 0.5 0.5");
+            } else if (this.getAttribute("id") == "RAM") {
+              newPlane.setAttribute("src", "images/RAM.jpg");
+              newPlane.setAttribute("width", 3);
+              newPlane.setAttribute("height", 1);
+              newPlane.setAttribute("id", planeId);
+              newPlane.setAttribute(
+                "class",
+                "clickable oppakken neerleggen plekPlaatsen Foto1"
+              );
+              newPlane.setAttribute("position", "1 1 -2");
+              newPlane.setAttribute("scale", "0.5 0.5 0.5");
+            }
 
             camera.appendChild(newPlane);
             vasthouden = "plane";
@@ -160,31 +180,80 @@ AFRAME.registerComponent("app", {
       objectPlaatsen[i].addEventListener("click", function (evt) {
         console.log("neerleg plek is geklikt", i);
         //hierergens een if statement?? als ik een plane oppak en wil plaatsen moet het kloppen
+        //hetgeen wat je vast hebt moet hier naar null gezet worden en - vasthouden
         if (vasthouden == "plane") {
           console.log("er is een plane geplaatst");
-          if (this.getAttribute("plane") != "neerleggen") {
-            light.setAttribute("light", "type: ambient; color: #008000");
-            setInterval(turnOffLight, 3000);
-            let plane = document.createElement("a-plane");
-            plane.setAttribute("class", "oppakken");
-            plane.setAttribute("src", "CPU.jpg");
-            plane.setAttribute("position", {
-              x: this.getAttribute("position").x,
-              y: "0.7",
-              z: this.getAttribute("position").z,
-            });
 
+          if (this.getAttribute("plane") != "neerleggen") {
+            light.setAttribute("light", "type:ambient; color: #008000");
+            setInterval(turnOffLight, 3000);
+            const plane = document.createElement("a-plane");
+            console.log("ik zit er net buiten");
+
+            console.log("Clicked element ID:", this.getAttribute("id"));
+            if (this.getAttribute("id") == "CPUplaats") {
+              console.log("hallo123");
+              plane.setAttribute("class", "oppakken");
+              plane.setAttribute("src", "images/CPU.jpg");
+              plane.setAttribute("width", 2);
+              plane.setAttribute("height", 2);
+              plane.setAttribute("position", {
+                x: this.getAttribute("position").x,
+                y: "0.7",
+                z: this.getAttribute("position").z,
+              });
+            } else if (this.getAttribute("id") == "RAMplaats") {
+              plane.setAttribute("class", "oppakken");
+              plane.setAttribute("src", "images/RAM.jpg");
+              plane.setAttribute("width", 3);
+              plane.setAttribute("height", 1);
+              plane.setAttribute("position", {
+                x: this.getAttribute("position").x,
+                y: "0.7",
+                z: this.getAttribute("position").z,
+              });
+            }
             scene.appendChild(plane);
-            // document.getElementsByClassName("clickable").remove(plane);
+
             let klikbaarElement =
               document.getElementsByClassName("plekPlaatsen");
             while (klikbaarElement.length > 0) {
               klikbaarElement[0].parentNode.removeChild(klikbaarElement[0]);
             }
-            addListeners();
           }
+          addListeners();
+
+          vasthouden = null;
         }
       });
     }
+  },
+});
+
+AFRAME.registerComponent("cursor-listener", {
+  init: function () {
+    var el = this.el;
+    el.addEventListener("click", function () {
+      window.location.href = "index.html";
+    });
+  },
+});
+
+AFRAME.registerComponent("cursor-listener1", {
+  init: function () {
+    var el = this.el;
+    el.addEventListener("click", function () {
+      window.location.href = "frontpage.html";
+    });
+  },
+});
+AFRAME.registerComponent("playGeluid", {
+  init: function () {
+    var el = this.el;
+    var afspeelGeluid = document.getElementById("afspeelGeluid");
+
+    el.addEventListener("click", function () {
+      afspeelGeluid.components.sound.play();
+    });
   },
 });

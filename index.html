@@ -45,9 +45,29 @@ op die blokken moet dan een pop up menu komen. -->
           material="color: black; shader: flat"
           geometry="primitive: ring; radiusInner: 0.007; radiusOuter: 0.01"
           position="0 0 -0.5"
-          raycaster="objects: .clickable ,.oppakken ,.neerleggen ,.plekPlaatsen"
+          raycaster="objects: .clickable ,.oppakken ,.neerleggen ,.plekPlaatsen ,.terug"
         ></a-entity>
       </a-camera>
+
+      <a-plane
+        class="terug"
+        id="terugButton"
+        color="black"
+        position="-8 8s 1"
+        side="double"
+        width="2"
+        height="1"
+        events="click: vorigePagina"
+        cursor-listener1
+      >
+        <a-text
+          position="-0.5 0 0"
+          value="TERUG"
+          width="8"
+          height="6"
+          color="white"
+        ></a-text
+      ></a-plane>
 
       <a-sky color="#dde7fb"></a-sky>
       <a-plane
@@ -157,7 +177,7 @@ op die blokken moet dan een pop up menu komen. -->
       <!-- hieronder de boxen waar je iets op kan plaatsen -->
       <a-entity id="boxEnPlaatsen">
         <a-box
-          id="CPUplaats CPU"
+          id="CPUplaats"
           class="neerleggen"
           color="grey"
           position="-1 0 0"
@@ -166,7 +186,7 @@ op die blokken moet dan een pop up menu komen. -->
         ></a-box>
 
         <a-box
-          id="RAMplaats RAM"
+          id="RAMplaats"
           class="neerleggen"
           color="grey"
           position="1 0 0"
@@ -195,10 +215,11 @@ op die blokken moet dan een pop up menu komen. -->
         <!-- ram plane -->
         <a-entity>
           <a-plane
+            id="RAM"
             class="clickable oppakken Foto1"
             height="1"
             width="3"
-            position="4 5 0"
+            position="4 5 0.1"
             side="double"
             src="images/RAM.jpg"
           >
@@ -207,20 +228,22 @@ op die blokken moet dan een pop up menu komen. -->
 
         <!-- cpu plane -->
         <a-plane
-          class="clickable oppakken Foto"
+          id="CPU"
+          class="clickable oppakken FotoCPU"
           src="images/CPU.jpg"
           height="2"
           width="2"
-          position="7 5 0"
+          position="7 5 0.1"
           side="double"
         ></a-plane>
         <!-- ssd plane -->
         <a-plane
+          id="SSD"
           class="clickable oppakken ssdFoto"
           src="images/SSD.jpg"
           height="2"
           width="2"
-          position="10s 5 0"
+          position="10 5 0.1s"
           side="double"
         ></a-plane>
       </a-entity>
