@@ -89,8 +89,23 @@ AFRAME.registerComponent("app", {
       light.setAttribute("light", "type: ambient; color: #BBB");
     }
 
+    const tpboxClicked = (event) => {
+      let tpboxElement = event.target
+      newPosition = tpboxElement.getAttribute('position')
+
+      document.getElementById('camera-cirkel').setAttribute('position', newPosition)
+    }
+
     const camera = document.getElementById("camera-cirkel");
     const objectPlaatsen = document.getElementsByClassName("neerleggen");
+
+    const tpboxList = document.getElementsByClassName('js--tpbox');
+
+    for (let i = 0; i < tpboxList.length; i++) {
+        const element = tpboxList[i];
+        tpboxList.addEventListener('click', tpboxClicked)
+    }
+
     let scene = document.getElementById("js-scene");
     let oppakbaar = document.getElementsByClassName("oppakken");
     let vasthouden = null;
